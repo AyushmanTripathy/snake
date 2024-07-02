@@ -7,7 +7,7 @@ REQUIRED_OBJS = build/utils.o build/game.o build/$(ai).o
 
 all: $(EXEC)
 
-build/%.o: %.cpp
+build/%.o: %.cpp defs.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 build:
