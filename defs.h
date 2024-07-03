@@ -6,7 +6,7 @@
 
 #define GRID_SIZE 50
 #define PIXEL_SIZE 20
-#define FRAME_RATE 30
+#define FRAME_RATE 20
 #define BORDER_WIDTH 1
 
 typedef struct {

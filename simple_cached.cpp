@@ -3,7 +3,6 @@
 #include <cfloat>
 #include <vector>
 #include <math.h>
-#include <SDL2/SDL_timer.h>
 
 #include "defs.h"
 
@@ -57,8 +56,7 @@ bool snake_ai_helper(point * head, bool visited[]) {
 
 int snake_ai_simple() {
   // use cached path if avaliable
-  //if (cached_ai_path.empty()) {
-    cached_ai_path.clear();
+  if (cached_ai_path.empty()) {
     std::cout << "Calculating new cached path\n";
 
     bool visited[GRID_SIZE * GRID_SIZE] = {false};
@@ -69,9 +67,8 @@ int snake_ai_simple() {
     point ai_head = { snake_head->x, snake_head->y };
     if (!snake_ai_helper(&ai_head, visited)) {
       end_game("no path found ... giving up");
-      SDL_Delay(3000);
     } else std::cout << "New cached path found of length " << cached_ai_path.size() << "\n";
-  //}
+  }
   
   int d = cached_ai_path.back();
   cached_ai_path.pop_back();
