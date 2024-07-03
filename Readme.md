@@ -21,3 +21,15 @@ following algorithims are avaliable
 1. simple_cached
 
 use `user` for playing game yourself
+
+### controls
+
+| Key        | function       |
+| ---------- | -------------- |
+| q          | quit           |
+| space      | toggle pause   |
+| arrow keys | movement       |
+| , comma    | decrease speed |
+| . period   | increase speed |
+
+you can change defaults in `defs.h` for frame rate, grid size, pixel size etc.  

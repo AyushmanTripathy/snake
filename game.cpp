@@ -11,6 +11,8 @@ point snake_body[GRID_SIZE * GRID_SIZE] = {{2, 1}, {2, 2}, {2, 3}};
 point food = {8, 2};
 point* snake_head = &snake_body[snake_length - 1];
 
+int frame_rate = FRAME_RATE;
+
 extern int (* snake_ai)();
 extern std::vector<int> cached_ai_path;
 extern bool is_running;
@@ -86,7 +88,7 @@ void paint(SDL_Renderer * renderer) {
       SDL_RenderDrawPoint(renderer, snake_body[i].x + 1, snake_body[i].y + 1);
     }
     SDL_RenderPresent(renderer);
-    SDL_Delay(FRAME_RATE);
+    SDL_Delay(frame_rate);
 }
 
 int main() {
@@ -124,6 +126,14 @@ int main() {
           case SDLK_LEFT:
             dir = 3;
             break;
+          case SDLK_PERIOD:
+            frame_rate -= 10;
+            if (frame_rate < 10) frame_rate = 10;
+            break;
+          case SDLK_COMMA:
+            frame_rate += 10;
+            if (frame_rate > 1000) frame_rate = 1000;
+            break;
         }
       }
     }
@@ -135,9 +145,7 @@ int main() {
 
     // find new direction
     dir = snake_ai();
-
     game_loop();
-
     paint(renderer);
 
     // game end situation
