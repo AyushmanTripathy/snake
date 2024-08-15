@@ -6,7 +6,7 @@ EXEC = build/snake.out
 REQUIRED_OBJS = build/utils.o build/game.o build/$(ai).o
 
 $all: build $(REQUIRED_OBJS)
-	$(CXX) $(LDFLAGS) $(REQUIRED_OBJS) -o $(EXEC)
+	$(CXX) $(REQUIRED_OBJS) $(LDFLAGS) -o $(EXEC)
 	./$(EXEC)
 
 build/%.o: %.cpp defs.h
