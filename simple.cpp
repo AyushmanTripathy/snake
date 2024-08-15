@@ -3,12 +3,12 @@
 #include <cfloat>
 #include <vector>
 #include <math.h>
-#include <SDL2/SDL_timer.h>
 
 #include "defs.h"
 
 std::vector<int> cached_ai_path;
 
+extern bool is_on_boundry(point *); 
 extern void move_in_dir(point *, int[]);
 extern float distance(point *, point *);
 extern void unmove_in_dir(point *, int[]);
@@ -35,7 +35,8 @@ bool snake_ai_helper(point * head, bool visited[]) {
 
   for (int i = 0; i < 4; i++) {
     move_in_dir(head, all_dirs[i]);
-    if (!visited[GRID_SIZE * head->x + head->y]) available_dirs.push_back({ distance(&food, head), i });
+    if (!is_on_boundry(head) && !visited[GRID_SIZE * head->x + head->y])
+      available_dirs.push_back({ distance(&food, head), i });
     unmove_in_dir(head, all_dirs[i]);
   }
 
@@ -56,22 +57,16 @@ bool snake_ai_helper(point * head, bool visited[]) {
 }
 
 int snake_ai_simple() {
-  // use cached path if avaliable
-  //if (cached_ai_path.empty()) {
-    cached_ai_path.clear();
-    std::cout << "Calculating new cached path\n";
+  cached_ai_path.clear();
+  bool visited[GRID_SIZE * GRID_SIZE] = {false};
+  for (int i = 0; i < snake_length; i++) {
+    visited[snake_body[i].x * GRID_SIZE + snake_body[i].y] = true;
+  }
 
-    bool visited[GRID_SIZE * GRID_SIZE] = {false};
-    for (int i = 0; i < snake_length; i++) {
-      visited[snake_body[i].x * GRID_SIZE + snake_body[i].y] = true;
-    }
-
-    point ai_head = { snake_head->x, snake_head->y };
-    if (!snake_ai_helper(&ai_head, visited)) {
-      end_game("no path found ... giving up");
-      SDL_Delay(3000);
-    } else std::cout << "New cached path found of length " << cached_ai_path.size() << "\n";
-  //}
+  point ai_head = { snake_head->x, snake_head->y };
+  if (!snake_ai_helper(&ai_head, visited)) {
+    end_game("no path found ... giving up");
+  } else std::cout << "New path found of length " << cached_ai_path.size() << "\n";
   
   int d = cached_ai_path.back();
   cached_ai_path.pop_back();

@@ -11,6 +11,7 @@ bool arr_includes_point(point * arr, int arr_length, point * p) {
   return false;
 }
 
+// not being used
 void fold_through_borders(point * p) {
   if (p->x >= GRID_SIZE) p->x = 0;
   else if (p->x < 0) p->x = GRID_SIZE - 1;
@@ -21,13 +22,19 @@ void fold_through_borders(point * p) {
 void move_in_dir(point * p, int d[2]) {
   p->x += d[0];
   p->y += d[1];
-  fold_through_borders(p);
+  //fold_through_borders(p);
 }
 
 void unmove_in_dir(point * p, int d[2]) {
   p->x -= d[0];
   p->y -= d[1];
-  fold_through_borders(p);
+  //fold_through_borders(p);
+}
+
+bool is_on_boundry(point * head) {
+  if (head->x == -1 || head->y == -1 || head->x == GRID_SIZE || head->y == GRID_SIZE)
+    return true;
+  return false;
 }
 
 void end_game(std::string msg) {

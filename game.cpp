@@ -18,6 +18,7 @@ extern std::vector<int> cached_ai_path;
 extern bool is_running;
 extern bool is_paused;
 
+extern bool is_on_boundry(point *);
 extern void end_game(std::string);
 extern void set_pause(bool, std::string);
 extern bool arr_includes_point(point *, int, point *); 
@@ -53,6 +54,12 @@ void game_loop() {
     // moving the head
     move_in_dir(snake_head, all_dirs[dir]);
   }
+  // game end situations
+  if (arr_includes_point(snake_body, snake_length - 1, snake_head))
+    end_game("head body collision dectected");
+  // boundries
+  if (is_on_boundry(snake_head))
+    end_game("head boundry collision dectected");
 }
 
 void paint(SDL_Renderer * renderer) {
@@ -91,6 +98,13 @@ void paint(SDL_Renderer * renderer) {
     SDL_Delay(frame_rate);
 }
 
+void change_frame_rate(int delta) {
+  frame_rate += delta;
+  if (frame_rate < 3) frame_rate = 10;
+  else if (frame_rate > 1000) frame_rate = 1000;
+  else std::cout << "Frame delay changed to " << frame_rate << "ms\n";
+}
+
 int main() {
   SDL_Window* window = nullptr;
   SDL_Renderer* renderer = nullptr;
@@ -127,12 +141,10 @@ int main() {
             dir = 3;
             break;
           case SDLK_PERIOD:
-            frame_rate -= 10;
-            if (frame_rate < 10) frame_rate = 10;
+            change_frame_rate(-10);
             break;
           case SDLK_COMMA:
-            frame_rate += 10;
-            if (frame_rate > 1000) frame_rate = 1000;
+            change_frame_rate(10);
             break;
         }
       }
@@ -147,13 +159,8 @@ int main() {
     dir = snake_ai();
     game_loop();
     paint(renderer);
-
-    // game end situation
-    if (arr_includes_point(snake_body, snake_length - 1, snake_head)) {
-      end_game("head body collision dectected");
-      SDL_Delay(1000);
-    }
   }
+  SDL_Delay(1000);
   std::cout << "score: " << snake_length << "\n";
   return 0;
 }

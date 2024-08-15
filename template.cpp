@@ -14,8 +14,8 @@ extern int snake_length, dir;
 extern point food, * snake_head;
 extern point snake_body[];
 
-int snake_ai_astar() {
+int snake_ai_example() {
   return 1;
 }
 
-int (*snake_ai)() = &snake_ai_astar;
+int (*snake_ai)() = &snake_ai_example;
