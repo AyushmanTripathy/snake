@@ -4,10 +4,10 @@
 #include "iostream"
 #include "string"
 
-#define GRID_SIZE 50
-#define PIXEL_SIZE 20
+#define GRID_SIZE 30 
+#define PIXEL_SIZE 30
 #define BORDER_WIDTH 1
-#define FRAME_RATE 30
+#define FRAME_RATE 200
 
 typedef struct {
   int x;

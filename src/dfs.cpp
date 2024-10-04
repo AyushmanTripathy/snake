@@ -57,20 +57,16 @@ bool snake_ai_helper(point * head, bool visited[]) {
 }
 
 int snake_ai_simple() {
-  // use cached path if avaliable
-  if (cached_ai_path.empty()) {
-    std::cout << "Calculating new cached path\n";
-
-    bool visited[GRID_SIZE * GRID_SIZE] = {false};
-    for (int i = 0; i < snake_length; i++) {
-      visited[snake_body[i].x * GRID_SIZE + snake_body[i].y] = true;
-    }
-
-    point ai_head = { snake_head->x, snake_head->y };
-    if (!snake_ai_helper(&ai_head, visited)) {
-      end_game("no path found ... giving up");
-    } else std::cout << "New path found of length " << cached_ai_path.size() << "\n";
+  cached_ai_path.clear();
+  bool visited[GRID_SIZE * GRID_SIZE] = {false};
+  for (int i = 0; i < snake_length; i++) {
+    visited[snake_body[i].x * GRID_SIZE + snake_body[i].y] = true;
   }
+
+  point ai_head = { snake_head->x, snake_head->y };
+  if (!snake_ai_helper(&ai_head, visited)) {
+    end_game("no path found ... giving up");
+  } 
   
   int d = cached_ai_path.back();
   cached_ai_path.pop_back();

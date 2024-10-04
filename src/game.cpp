@@ -6,9 +6,9 @@
 
 int all_dirs[4][2] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
 
-int snake_length = 3, dir = 1;
-point snake_body[GRID_SIZE * GRID_SIZE] = {{2, 1}, {2, 2}, {2, 3}};
-point food = {8, 2};
+int snake_length = 1, dir = 1;
+point snake_body[GRID_SIZE * GRID_SIZE] = {{ 0, 0 }};
+point food = {1, 1};
 point* snake_head = &snake_body[snake_length - 1];
 
 int frame_rate = FRAME_RATE;
@@ -100,7 +100,7 @@ void paint(SDL_Renderer * renderer) {
 
 void change_frame_rate(int delta) {
   frame_rate += delta;
-  if (frame_rate < 3) frame_rate = 10;
+  if (frame_rate < 3) frame_rate = 3;
   else if (frame_rate > 1000) frame_rate = 1000;
   else std::cout << "Frame delay changed to " << frame_rate << "ms\n";
 }
@@ -152,13 +152,13 @@ int main() {
 
     if (is_paused) continue;
 
-    // game win sitution
-    if (snake_length == GRID_SIZE * GRID_SIZE - 1) set_pause(true, "Game won");
-
     // find new direction
     dir = snake_ai();
     game_loop();
     paint(renderer);
+
+    // game win sitution
+    if (snake_length == GRID_SIZE * GRID_SIZE - 1) end_game("Game won");
   }
   SDL_Delay(1000);
   std::cout << "score: " << snake_length << "\n";

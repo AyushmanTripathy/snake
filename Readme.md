@@ -8,10 +8,10 @@ dependencies are
 1. make
 1. c++ compiler of you choice
 
-snake can runned with different algorithims by passing the `ai` arg with make
+snake can runned with different algorithims by passing the `algo` arg with make
 
 ```
-make ai=simple
+make algo=simple
 ```
 
 following algorithims are avaliable
